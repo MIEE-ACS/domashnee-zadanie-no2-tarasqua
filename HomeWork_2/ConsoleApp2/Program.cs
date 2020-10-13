@@ -33,6 +33,7 @@ namespace ConsoleApp2
         {
             double x, r;
 
+            //Ввод аргумента
             while (true)
             {
                 Console.WriteLine("Введите значение аргумента:");
@@ -49,11 +50,12 @@ namespace ConsoleApp2
                 }
             }
 
+            //Ввод радиуса
             while (true)
             {
                 Console.WriteLine("Введите значение радиуса:");
 
-                if (double.TryParse(Console.ReadLine(), out r) && (r == 1))
+                if (double.TryParse(Console.ReadLine(), out r) && (r > 0))
                 {
                     break;
                 }
@@ -65,13 +67,19 @@ namespace ConsoleApp2
                 }
             }
 
+            //Вывод значение при определенном аргументе:
             if (x <= -2)
             {
                 Console.WriteLine($"y({x}) = {Segment1(x)}");
             }
             else if (x > -2 && x <= -1)
             {
-                Console.WriteLine($"y({x}) = {Segment2(x, r)}");
+                //Проверка на вхождение в область определения:
+                if (Segment2(x,r) is Double.NaN)
+                {
+                    Console.WriteLine("Функция неопределена в данной точке!");
+                }
+                else Console.WriteLine($"y({x}) = {Segment2(x, r)}");
             }
             else if (x > -1 && x <= 1)
             {
@@ -84,6 +92,36 @@ namespace ConsoleApp2
             else if (x > 2)
             {
                 Console.WriteLine($"y({x}) = {Segment5()}");
+            }
+
+            //Вывод значений:
+            Console.WriteLine();
+            for (double X = -3; X <= 5; X += 0.2)
+            {
+                if (X < -2)
+                {
+                    Console.WriteLine("y({0:0.00}) = {1:0.00}", X, Segment1(X));
+                }
+                else if (X < -1)
+                {
+                    if (Segment2(X, r) is Double.NaN)
+                    {
+                        Console.WriteLine("-");
+                    }
+                    else Console.WriteLine("y({0:0.00}) = {1:0.00}", X, Segment2(X, r));
+                }
+                else if (X < 1)
+                {
+                    Console.WriteLine("y({0:0.00}) = {1:0.00}", X, Segment3());
+                }
+                else if (X < 2)
+                {
+                    Console.WriteLine("y({0:0.00}) = {1:0.00}", X, Segment4(X));
+                }
+                else if (X < 5)
+                {
+                    Console.WriteLine("y({0:0.00}) = {1:0.00}", X, Segment5());
+                }
             }
 
             Console.ReadKey();
